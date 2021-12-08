@@ -1,0 +1,9 @@
+*.code-workspace
+*.idea
+.DS_Store
+.vscode/
+*.__pycache__
+*.pkl
+**/*.pyc
+*.env
+*.log
