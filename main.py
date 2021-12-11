@@ -1,29 +1,31 @@
-import os
-import requests
-import json
-from fastapi import FastAPI
-from dotenv import load_dotenv
+'''
+Minimal example using fastAPI.
+'''
+from typing import Optional
 
-def get_api_key():
-    load_dotenv()
-    key = os.getenv('API_KEY')
-    return key
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+
+class Employee(BaseModel):
+    first_name: str
+    last_name: str
+    company: str
+    age: int
+    phone: Optional[str] = None
 
 
 app = FastAPI()
 
 
-
 @app.get("/")
-def root():
+def hello():
     return {"Hello": "API"}
 
 
-@app.get("/getholidays/")
-def get_domain(country: str, year: int):
-    key = get_api_key()
-
-    url = f"https://calendarific.com/api/v2/holidays?&api_key={key}&country={country}&year={year}&type=national"
-    response = requests.get(url)
-
-    return response.json()
+@app.post("/create_employee/")
+def create_employee(employee: Employee):
+    return {
+        "status": "created",
+        "data": employee
+    }
